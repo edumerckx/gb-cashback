@@ -1,0 +1,36 @@
+[tool.poetry]
+name = "gb-cashback"
+version = "0.1.0"
+description = "Cashback Calculator - Teste GB backend"
+authors = ["Eduardo Gomes <edu_merckx@yahoo.com.br>"]
+readme = "README.md"
+packages = [{include = "gb_cashback"}]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = {extras = ["standard"], version = "^0.115.11"}
+pydantic = "^2.10.6"
+pydantic-settings = "^2.8.1"
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.9.10"
+taskipy = "^1.14.1"
+pytest = "^8.3.5"
+pytest-cov = "^6.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 80
+extend-exclude = ['migrations']
+
+[tool.ruff.lint]
+preview = true
+select = ['I', 'F', 'E', 'W', 'PL', 'PT']
+
+[tool.ruff.format]
+preview = true
+quote-style = 'single'
