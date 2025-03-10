@@ -11,6 +11,10 @@ python = "^3.12"
 fastapi = {extras = ["standard"], version = "^0.115.11"}
 pydantic = "^2.10.6"
 pydantic-settings = "^2.8.1"
+alembic = "^1.15.1"
+sqlalchemy = "^2.0.38"
+pyjwt = "^2.10.1"
+pwdlib = {extras = ["argon2"], version = "^0.2.1"}
 
 
 [tool.poetry.group.dev.dependencies]
@@ -34,3 +38,10 @@ select = ['I', 'F', 'E', 'W', 'PL', 'PT']
 [tool.ruff.format]
 preview = true
 quote-style = 'single'
+
+[tool.taskipy.tasks]
+lint = 'ruff check .; ruff check . --diff'
+format = 'ruff check . --fix; ruff format .'
+run = 'fastapi dev gb_cashback/app.py'
+test = 'pytest -s -x --cov=gb_cashback -vv'
+post_test = 'coverage xml'
