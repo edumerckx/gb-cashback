@@ -4,7 +4,15 @@ on: [push]
 jobs:
   test:
     runs-on: ubuntu-latest
-
+    env:
+        CASHBACK_EXTERNAL_URL: ${{secrets.CASHBACK_EXTERNAL_URL}}
+        CASHBACK_EXTERNAL_TOKEN: ${{secrets.CASHBACK_EXTERNAL_TOKEN}}
+        DATABASE_URL: ${{secrets.DATABASE_URL}}
+        ACCESS_TOKEN_EXPIRE_MINUTES: ${{secrets.ACCESS_TOKEN_EXPIRE_MINUTES}}
+        SECRET_KEY: ${{secrets.SECRET_KEY}}
+        ALGORITHM: ${{secrets.ALGORITHM}}
+        RESELLER_PURCHASE_APPROVED: ${{secrets.RESELLER_PURCHASE_APPROVED}}
+        LOGGER_LEVEL: ${{secrets.LOGGER_LEVEL}}
     steps:
       - name: Copia os arquivos do repo
         uses: actions/checkout@v3
