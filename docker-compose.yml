@@ -1,0 +1,16 @@
+services:
+  gbcashback_app:
+    image: gbcashback_app
+    entrypoint: ./entrypoint.sh
+    build: .
+    ports:
+      - 8000:8000
+    environment:
+      - CASHBACK_EXTERNAL_URL=https://mdaqk8ek5j.execute-api.us-east-1.amazonaws.com/v1/cashback?cpf=
+      - CASHBACK_EXTERNAL_TOKEN=ZXPURQOARHiMc6Y0flhRC1LVlZQVFRnm
+      - DATABASE_URL=sqlite:///gb_cashback.db
+      - ACCESS_TOKEN_EXPIRE_MINUTES=30
+      - SECRET_KEY=gb_cashback_secret
+      - ALGORITHM=HS256
+      - RESELLER_PURCHASE_APPROVED=15350946056,
+      - LOGGER_LEVEL=DEBUG
