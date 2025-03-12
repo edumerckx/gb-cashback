@@ -10,3 +10,8 @@ app.include_router(resellers_router)
 app.include_router(purchases_router)
 app.include_router(cashback_router)
 app.include_router(auth_router)
+
+
+@app.get('/')
+def root():
+    return {'message': 'GB Cashback'}

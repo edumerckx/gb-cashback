@@ -6,6 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session as SessionORM
 
 from gb_cashback.db import get_session
+from gb_cashback.logger import get_logger
 from gb_cashback.models import Reseller
 from gb_cashback.schemas.cashback import CashbackResponse
 from gb_cashback.security import get_current_reseller
@@ -14,6 +15,7 @@ from gb_cashback.settings import Settings
 router = APIRouter(prefix='/cashback', tags=['cashback'])
 
 settings = Settings()
+logger = get_logger(settings.LOGGER_LEVEL)
 
 Session = Annotated[SessionORM, Depends(get_session)]
 ResellerLogged = Annotated[Reseller, Depends(get_current_reseller)]
@@ -28,6 +30,7 @@ def get_cashback(reseller: ResellerLogged):
         )
         data = response.json()['body']
     except Exception:
+        logger.error('Unable to get cashback')
         raise HTTPException(
             status_code=HTTPStatus.INTERNAL_SERVER_ERROR,
             detail='Unable to get cashback',)

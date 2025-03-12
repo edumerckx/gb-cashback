@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session as SessionORM
 
 from gb_cashback.calculator import cashback
 from gb_cashback.db import get_session
+from gb_cashback.logger import get_logger
 from gb_cashback.models import Purchase, PurchaseStatus, Reseller
 from gb_cashback.schemas.purchase import (
     PurchaseResponse,
@@ -19,6 +20,7 @@ from gb_cashback.settings import Settings
 
 router = APIRouter(prefix='/purchases', tags=['purchases'])
 settings = Settings()
+logger = get_logger(settings.LOGGER_LEVEL)
 
 Session = Annotated[SessionORM, Depends(get_session)]
 ResellerLogged = Annotated[Reseller, Depends(get_current_reseller)]
@@ -52,13 +54,15 @@ def create_purchase(
         session.add(new_purchase)
         session.commit()
         session.refresh(new_purchase)
+        logger.info(f'Purchase (code {purchase.code}) created')
+        return new_purchase
     except IntegrityError:
+        logger.error(f'Purchase (code {purchase.code}) already exists')
         raise HTTPException(
             status_code=HTTPStatus.CONFLICT,
             detail=f'Purchase (code {purchase.code}) already exists',
         )
 
-    return new_purchase
 
 
 @router.get('/', status_code=HTTPStatus.OK, response_model=PurchaseResponseList)
