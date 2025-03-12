@@ -24,8 +24,15 @@ poetry install
 
 As configurações ficam em variáveis de ambiente e devem ser informadas no arquivo `.env`. O arquivo `.env-example` tem um exemplo de configuração.
 
-Depois de instaladas as dependências, executar o comando:
+Depois de instaladas as dependências, executar os comandos:
 ```sh
+# habilita virtualenv para aplicação
+poetry shell
+
+# roda migrations - necessário somente na instalação
+alembic upgrade head
+
+# roda aplicação no modo produção - para dev, alterar run por dev
 task run
 ```
 
@@ -40,7 +47,7 @@ task test
 
 Para executar a aplicação utilizando o _docker-compose_ executar:
 ```sh
-docker-compose up
+docker-compose up --build
 ```
 
 ## Como funciona
